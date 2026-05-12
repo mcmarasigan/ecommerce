@@ -1,175 +1,124 @@
 // src/pages/Login.jsx
 
 import React, { useState, useContext } from 'react';
-import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const [error, setError]       = useState('');
+  const [loading, setLoading]   = useState(false);
+  const { login }    = useContext(AuthContext);
+  const navigate     = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
       await login(email, password);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid email or password');
+      setError(err.response?.data?.message || 'Invalid email or password. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Container className="py-5">
-      <Row className="justify-content-center">
-        <Col md={6} lg={5}>
-          <Card style={{ boxShadow: '0 4px 12px rgba(91, 64, 51, 0.2)' }}>
-            <Card.Header
-              style={{
-                background: 'linear-gradient(135deg, #5c4033 0%, #8b6f47 100%)',
-                color: 'white',
-                padding: '30px 20px',
-                textAlign: 'center',
-              }}
-            >
-              <h2 style={{ marginBottom: 0, fontWeight: 700 }}>Login</h2>
-              <p style={{ marginTop: 10, marginBottom: 0, fontSize: '0.95rem' }}>
-                Welcome back to Brown Store
-              </p>
-            </Card.Header>
+    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', background: '#faf9f7' }}>
+      <Container>
+        <Row className="justify-content-center">
+          <Col md={10} lg={8} xl={6}>
 
-            <Card.Body style={{ padding: '40px 30px' }}>
+            <div style={{ textAlign: 'center', marginBottom: 48 }}>
+              <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.6rem', fontWeight: 300, color: '#1a1a1a', letterSpacing: '0.02em' }}>
+                Welcome Back
+              </h1>
+              <p style={{ color: '#9e9889', fontSize: '0.85rem', letterSpacing: '0.06em', marginTop: 8 }}>
+                Sign in to your Lumière account
+              </p>
+            </div>
+
+            <div style={{ background: '#fff', border: '1px solid #eae8e3', borderRadius: '8px', padding: '48px 48px', boxShadow: '0 4px 24px rgba(0,0,0,.06)' }}>
               {error && (
-                <Alert variant="danger" onClose={() => setError('')} dismissible>
+                <Alert variant="danger" onClose={() => setError('')} dismissible style={{ marginBottom: 28 }}>
                   {error}
                 </Alert>
               )}
 
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label style={{ color: '#5c4033', fontWeight: 600 }}>
-                    Email Address
-                  </Form.Label>
-                  <Form.Control
+              <form onSubmit={handleSubmit}>
+                <div style={{ marginBottom: 24 }}>
+                  <label className="form-label">Email Address</label>
+                  <input
                     type="email"
+                    className="form-control"
                     placeholder="your@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    style={{
-                      borderColor: '#8b6f47',
-                      padding: '12px 15px',
-                      fontSize: '1rem',
-                    }}
+                    id="login-email"
                   />
-                </Form.Group>
+                </div>
 
-                <Form.Group className="mb-3">
-                  <Form.Label style={{ color: '#5c4033', fontWeight: 600 }}>
-                    Password
-                  </Form.Label>
-                  <Form.Control
+                <div style={{ marginBottom: 32 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                    <label className="form-label" style={{ marginBottom: 0 }}>Password</label>
+                    <Link to="#" style={{ fontSize: '0.75rem', color: '#b8975a', textDecoration: 'none', letterSpacing: '0.04em' }}>
+                      Forgot password?
+                    </Link>
+                  </div>
+                  <input
                     type="password"
+                    className="form-control"
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    style={{
-                      borderColor: '#8b6f47',
-                      padding: '12px 15px',
-                      fontSize: '1rem',
-                    }}
+                    id="login-password"
                   />
-                </Form.Group>
-
-                <Form.Group className="mb-4">
-                  <Form.Check
-                    type="checkbox"
-                    label="Remember me"
-                    style={{ color: '#5c4033' }}
-                  />
-                </Form.Group>
-
-                <Button
-                  type="submit"
-                  className="w-100 mb-3"
-                  style={{
-                    backgroundColor: '#d4a574',
-                    borderColor: '#d4a574',
-                    color: 'white',
-                    padding: '12px',
-                    fontSize: '1.05rem',
-                    fontWeight: 600,
-                  }}
-                  disabled={loading}
-                >
-                  {loading ? 'Logging in...' : 'Login'}
-                </Button>
-
-                <div style={{ textAlign: 'center', marginBottom: 20 }}>
-                  <Link
-                    to="#"
-                    style={{
-                      color: '#d4a574',
-                      textDecoration: 'none',
-                      fontSize: '0.95rem',
-                    }}
-                  >
-                    Forgot Password?
-                  </Link>
                 </div>
 
-                <hr style={{ borderColor: '#e0d4c8' }} />
+                <button
+                  type="submit"
+                  className="btn-primary-solid"
+                  style={{ width: '100%', padding: '14px', fontSize: '0.8rem' }}
+                  disabled={loading}
+                  id="login-submit"
+                >
+                  {loading ? 'Signing In...' : 'Sign In'}
+                </button>
+              </form>
 
-                <p style={{ textAlign: 'center', color: '#5c4033', marginBottom: 0 }}>
-                  Don't have an account?{' '}
-                  <Link
-                    to="/register"
-                    style={{
-                      color: '#d4a574',
-                      textDecoration: 'none',
-                      fontWeight: 600,
-                    }}
-                  >
-                    Sign Up
-                  </Link>
-                </p>
-              </Form>
-            </Card.Body>
-          </Card>
+              <hr style={{ borderColor: '#eae8e3', margin: '32px 0' }} />
 
-          {/* Demo Info */}
-          <div
-            style={{
-              marginTop: 30,
-              padding: 20,
-              backgroundColor: 'white',
-              borderRadius: 8,
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            }}
-          >
-            <p style={{ color: '#5c4033', fontWeight: 600, marginBottom: 10 }}>
-              Demo Credentials:
-            </p>
-            <p style={{ color: '#666', marginBottom: 5 }}>
-              <strong>Email:</strong> customer@example.com
-            </p>
-            <p style={{ color: '#666', marginBottom: 0 }}>
-              <strong>Password:</strong> password123
-            </p>
-          </div>
-        </Col>
-      </Row>
-    </Container>
+              <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#6b6558', marginBottom: 0 }}>
+                New to Lumière?{' '}
+                <Link to="/register" style={{ color: '#b8975a', textDecoration: 'none', fontWeight: 600 }}>
+                  Create an account
+                </Link>
+              </p>
+            </div>
+
+            {/* Demo credentials */}
+            <div style={{ marginTop: 24, padding: '20px 24px', background: '#f5f4f1', border: '1px solid #eae8e3', borderRadius: '6px' }}>
+              <p style={{ fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9e9889', fontWeight: 600, marginBottom: 10 }}>
+                Demo Credentials
+              </p>
+              <p style={{ fontSize: '0.85rem', color: '#6b6558', marginBottom: 4 }}>
+                <strong>Email:</strong> customer@example.com
+              </p>
+              <p style={{ fontSize: '0.85rem', color: '#6b6558', marginBottom: 0 }}>
+                <strong>Password:</strong> password123
+              </p>
+            </div>
+
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

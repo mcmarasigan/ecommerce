@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# Lumière — Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React frontend for the Lumière e-commerce platform. Built with an elegant minimalist design system.
 
-## Available Scripts
+## Quick Start
 
-In the project directory, you can run:
+```bash
+# Install dependencies
+npm install
 
-### `npm start`
+# Start development server
+npm start
+# → http://localhost:3000
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Production build
+npm run build
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Demo Credentials (Phase 1 — No backend required)
 
-### `npm test`
+| Role     | Email                    | Password     |
+|----------|--------------------------|--------------|
+| Customer | customer@example.com     | password123  |
+| Admin    | admin@example.com        | admin123     |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Project Structure
 
-### `npm run build`
+```
+src/
+├── api/
+│   └── api.js              # Axios config + API endpoints (ready for Phase 2)
+├── components/
+│   ├── Header.jsx          # Navbar + announcement banner + search
+│   ├── Footer.jsx          # Footer with columns
+│   ├── ProductCard.jsx     # Product display card
+│   └── Header.css          # (styles live in App.css)
+├── context/
+│   └── AuthContext.jsx     # Auth state — mock in Phase 1, real API in Phase 2
+├── pages/
+│   ├── Home.jsx            # Product listing with filters, sorting, pagination
+│   ├── ProductDetail.jsx   # Image gallery, qty selector, tabs
+│   ├── Cart.jsx            # Cart with quantity controls + order summary
+│   ├── Checkout.jsx        # 3-step: Shipping → Payment → Review
+│   ├── OrderConfirmation.jsx
+│   ├── MyOrders.jsx        # Order history with status badges
+│   ├── AdminDashboard.jsx  # Stats + searchable orders table
+│   ├── Login.jsx
+│   └── Register.jsx
+├── App.jsx                 # Router + layout
+├── App.css                 # Design system (all tokens + component styles)
+└── index.css               # Base reset + Google Fonts import
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Tech Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **React 18** — UI library
+- **React Router v6** — Client-side routing
+- **Bootstrap 5 + React-Bootstrap** — Grid & utility classes
+- **Axios** — HTTP client (ready for Phase 2 API calls)
+- **Context API** — Auth state management
+- **Google Fonts** — Cormorant Garamond (serif) + Inter (sans-serif)

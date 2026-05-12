@@ -1,54 +1,28 @@
 // src/pages/Register.jsx
 
 import React, { useState, useContext } from 'react';
-import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [error, setError] = useState('');
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  const [error, setError]     = useState('');
   const [loading, setLoading] = useState(false);
   const { register } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const navigate     = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    // Validation
-    if (!formData.name.trim()) {
-      setError('Please enter your full name');
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
+    if (!form.name.trim())                return setError('Please enter your full name.');
+    if (form.password.length < 6)         return setError('Password must be at least 6 characters.');
+    if (form.password !== form.confirmPassword) return setError('Passwords do not match.');
     setLoading(true);
-
     try {
-      await register(formData.name, formData.email, formData.password);
+      await register(form.name, form.email, form.password);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
@@ -58,157 +32,121 @@ const Register = () => {
   };
 
   return (
-    <Container className="py-5">
-      <Row className="justify-content-center">
-        <Col md={6} lg={5}>
-          <Card style={{ boxShadow: '0 4px 12px rgba(91, 64, 51, 0.2)' }}>
-            <Card.Header
-              style={{
-                background: 'linear-gradient(135deg, #5c4033 0%, #8b6f47 100%)',
-                color: 'white',
-                padding: '30px 20px',
-                textAlign: 'center',
-              }}
-            >
-              <h2 style={{ marginBottom: 0, fontWeight: 700 }}>Create Account</h2>
-              <p style={{ marginTop: 10, marginBottom: 0, fontSize: '0.95rem' }}>
-                Join Brown Store Today
-              </p>
-            </Card.Header>
+    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', background: '#faf9f7', padding: '40px 0' }}>
+      <Container>
+        <Row className="justify-content-center">
+          <Col md={10} lg={8} xl={6}>
 
-            <Card.Body style={{ padding: '40px 30px' }}>
+            <div style={{ textAlign: 'center', marginBottom: 48 }}>
+              <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.6rem', fontWeight: 300, color: '#1a1a1a' }}>
+                Create Account
+              </h1>
+              <p style={{ color: '#9e9889', fontSize: '0.85rem', letterSpacing: '0.06em', marginTop: 8 }}>
+                Join Lumière and discover curated elegance
+              </p>
+            </div>
+
+            <div style={{ background: '#fff', border: '1px solid #eae8e3', borderRadius: '8px', padding: '48px', boxShadow: '0 4px 24px rgba(0,0,0,.06)' }}>
               {error && (
                 <Alert variant="danger" onClose={() => setError('')} dismissible>
                   {error}
                 </Alert>
               )}
 
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label style={{ color: '#5c4033', fontWeight: 600 }}>
-                    Full Name
-                  </Form.Label>
-                  <Form.Control
+              <form onSubmit={handleSubmit}>
+                <div style={{ marginBottom: 20 }}>
+                  <label className="form-label">Full Name</label>
+                  <input
                     type="text"
-                    placeholder="John Doe"
                     name="name"
-                    value={formData.name}
+                    className="form-control"
+                    placeholder="Jane Doe"
+                    value={form.name}
                     onChange={handleChange}
                     required
-                    style={{
-                      borderColor: '#8b6f47',
-                      padding: '12px 15px',
-                      fontSize: '1rem',
-                    }}
+                    id="reg-name"
                   />
-                </Form.Group>
+                </div>
 
-                <Form.Group className="mb-3">
-                  <Form.Label style={{ color: '#5c4033', fontWeight: 600 }}>
-                    Email Address
-                  </Form.Label>
-                  <Form.Control
+                <div style={{ marginBottom: 20 }}>
+                  <label className="form-label">Email Address</label>
+                  <input
                     type="email"
-                    placeholder="your@email.com"
                     name="email"
-                    value={formData.email}
+                    className="form-control"
+                    placeholder="your@email.com"
+                    value={form.email}
                     onChange={handleChange}
                     required
-                    style={{
-                      borderColor: '#8b6f47',
-                      padding: '12px 15px',
-                      fontSize: '1rem',
-                    }}
+                    id="reg-email"
                   />
-                </Form.Group>
+                </div>
 
-                <Form.Group className="mb-3">
-                  <Form.Label style={{ color: '#5c4033', fontWeight: 600 }}>
-                    Password
-                  </Form.Label>
-                  <Form.Control
+                <div style={{ marginBottom: 20 }}>
+                  <label className="form-label">Password</label>
+                  <input
                     type="password"
-                    placeholder="At least 6 characters"
                     name="password"
-                    value={formData.password}
+                    className="form-control"
+                    placeholder="At least 6 characters"
+                    value={form.password}
                     onChange={handleChange}
                     required
-                    style={{
-                      borderColor: '#8b6f47',
-                      padding: '12px 15px',
-                      fontSize: '1rem',
-                    }}
+                    id="reg-password"
                   />
-                  <Form.Text style={{ color: '#666', fontSize: '0.85rem' }}>
-                    Password must be at least 6 characters long
-                  </Form.Text>
-                </Form.Group>
+                </div>
 
-                <Form.Group className="mb-4">
-                  <Form.Label style={{ color: '#5c4033', fontWeight: 600 }}>
-                    Confirm Password
-                  </Form.Label>
-                  <Form.Control
+                <div style={{ marginBottom: 32 }}>
+                  <label className="form-label">Confirm Password</label>
+                  <input
                     type="password"
-                    placeholder="Re-enter your password"
                     name="confirmPassword"
-                    value={formData.confirmPassword}
+                    className="form-control"
+                    placeholder="Re-enter your password"
+                    value={form.confirmPassword}
                     onChange={handleChange}
                     required
-                    style={{
-                      borderColor: '#8b6f47',
-                      padding: '12px 15px',
-                      fontSize: '1rem',
-                    }}
+                    id="reg-confirm"
                   />
-                </Form.Group>
+                </div>
 
-                <Form.Group className="mb-4">
-                  <Form.Check
-                    type="checkbox"
-                    label="I agree to the Terms and Conditions"
-                    required
-                    style={{ color: '#5c4033' }}
-                  />
-                </Form.Group>
+                <div style={{ marginBottom: 28 }}>
+                  <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', fontSize: '0.83rem', color: '#6b6558' }}>
+                    <input type="checkbox" required style={{ marginTop: 2, accentColor: '#1a1a1a' }} />
+                    <span>
+                      I agree to the{' '}
+                      <Link to="#" style={{ color: '#b8975a', textDecoration: 'none' }}>Terms of Service</Link>
+                      {' '}and{' '}
+                      <Link to="#" style={{ color: '#b8975a', textDecoration: 'none' }}>Privacy Policy</Link>
+                    </span>
+                  </label>
+                </div>
 
-                <Button
+                <button
                   type="submit"
-                  className="w-100 mb-3"
-                  style={{
-                    backgroundColor: '#d4a574',
-                    borderColor: '#d4a574',
-                    color: 'white',
-                    padding: '12px',
-                    fontSize: '1.05rem',
-                    fontWeight: 600,
-                  }}
+                  className="btn-primary-solid"
+                  style={{ width: '100%', padding: '14px', fontSize: '0.8rem' }}
                   disabled={loading}
+                  id="reg-submit"
                 >
-                  {loading ? 'Creating Account...' : 'Sign Up'}
-                </Button>
+                  {loading ? 'Creating Account...' : 'Create Account'}
+                </button>
+              </form>
 
-                <hr style={{ borderColor: '#e0d4c8' }} />
+              <hr style={{ borderColor: '#eae8e3', margin: '32px 0' }} />
 
-                <p style={{ textAlign: 'center', color: '#5c4033', marginBottom: 0 }}>
-                  Already have an account?{' '}
-                  <Link
-                    to="/login"
-                    style={{
-                      color: '#d4a574',
-                      textDecoration: 'none',
-                      fontWeight: 600,
-                    }}
-                  >
-                    Login
-                  </Link>
-                </p>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+              <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#6b6558', marginBottom: 0 }}>
+                Already have an account?{' '}
+                <Link to="/login" style={{ color: '#b8975a', textDecoration: 'none', fontWeight: 600 }}>
+                  Sign In
+                </Link>
+              </p>
+            </div>
+
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 
