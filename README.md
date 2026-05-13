@@ -283,7 +283,7 @@ npm start
 
 ## 📄 License
 
-MIT License © 2025 Ma. Clarissa C. Marasigan
+MIT License © 2026 Ma. Clarissa C. Marasigan
 
 ---
 
@@ -300,7 +300,7 @@ MIT License © 2025 Ma. Clarissa C. Marasigan
 
 ---
 
-*Last updated: May 2025 · Phase 1 ✅ · Phase 2 ✅ · Phase 3 ⏳*
+*Last updated: May 2026 · Phase 1 ✅ · Phase 2 ✅ · Phase 3 ⏳*
 
 ⭐ If you found this project helpful, please give it a star on GitHub!
 
